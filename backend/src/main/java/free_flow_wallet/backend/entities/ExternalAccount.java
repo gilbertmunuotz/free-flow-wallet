@@ -2,6 +2,7 @@ package free_flow_wallet.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,5 +26,7 @@ public class ExternalAccount {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime linkedAt;
 }
