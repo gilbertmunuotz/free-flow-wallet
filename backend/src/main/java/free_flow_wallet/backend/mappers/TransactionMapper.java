@@ -12,7 +12,6 @@ public class TransactionMapper {
         dto.setType(tx.getType());
         dto.setSenderId(tx.getSender().getId());
         dto.setReceiverId(tx.getReceiver().getId());
-        dto.setCategory(tx.getCategory());
         dto.setDescription(tx.getDescription());
         dto.setTimestamp(tx.getCreatedAt());
         return dto;
@@ -24,7 +23,6 @@ public class TransactionMapper {
         tx.setType(dto.getType());
         tx.setSender(sender);
         tx.setReceiver(receiver);
-        tx.setCategory(dto.getCategory());
         tx.setDescription(dto.getDescription());
         tx.setCreatedAt(dto.getTimestamp());
         return tx;

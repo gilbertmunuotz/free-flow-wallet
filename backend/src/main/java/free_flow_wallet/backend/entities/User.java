@@ -31,6 +31,9 @@ public class User {
 
     private String pin;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Wallet wallet;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ExternalAccount> externalAccounts;
 
