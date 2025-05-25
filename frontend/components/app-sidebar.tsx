@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import Image from "next/image"
+import { auth } from "@/auth";
+import LogoutButton from "./logout";
 
 // Menu items.
 const items = [
@@ -32,7 +34,10 @@ const items = [
     },
 ]
 
-export function AppSidebar() {
+export default async function AppSidebar() {
+
+    const session = await auth();
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -62,7 +67,7 @@ export function AppSidebar() {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="w-full">
                                     <User2 className="mr-2" />
-                                    <span>username</span>
+                                    <span>{session?.user.email}</span>
                                     <ChevronUp className="ml-auto" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
@@ -70,14 +75,13 @@ export function AppSidebar() {
                                 side="top"
                                 className="w-full">
                                 <DropdownMenuItem>
-                                    {/* <LogoutButton /> */}
+                                    <LogoutButton />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>
-
         </Sidebar>
     )
 }
