@@ -53,26 +53,24 @@ export function RegisterForm({
                             <div className="grid gap-3">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    <Link href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline" >Forgot your password?
-                                    </Link>
                                 </div>
                                 <Input id="password" type="password" required />
                             </div>
-                            <div className="grid gap-3">
-                                <Label htmlFor="email">Pin</Label>
-                                <InputOTP maxLength={4}>
-                                    <InputOTPGroup>
-                                        <InputOTPSlot index={0} />
-                                        <InputOTPSlot index={1} />
-                                        <InputOTPSlot index={2} />
-                                        <InputOTPSlot index={3} />
-                                    </InputOTPGroup>
-                                </InputOTP>
+                            <div className="grid">
+                                <Label htmlFor="email">4 Digit Pin for Your Wallet
+                                    <InputOTP maxLength={4}>
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={0} />
+                                            <InputOTPSlot index={1} />
+                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={3} />
+                                        </InputOTPGroup>
+                                    </InputOTP> </Label>
 
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Button type="submit" className="w-full">
-                                    Sing Up
+                                    Sign Up
                                 </Button>
                             </div>
                         </div>
