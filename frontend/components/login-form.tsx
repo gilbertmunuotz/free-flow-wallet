@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react"
 import { toast } from 'react-toastify';
 
@@ -52,9 +52,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     }
   }
 
-  const { data: session } = useSession();
-  console.log(session);
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -89,9 +86,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 <Input id="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} disabled={loading} required />
               </div>
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Sign In
-                </Button>
+                {loading ? (
+                  <Button className="w-full cursor-not-allowed" disabled>
+                    Signing In...
+                  </Button>
+                ) : (
+                  <Button type="submit" className="w-full cursor-pointer">
+                    Sign In
+                  </Button>
+                )}
               </div>
             </div>
             <div className="mt-4 text-center text-sm">

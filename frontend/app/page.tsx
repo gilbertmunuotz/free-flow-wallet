@@ -1,9 +1,20 @@
+import { ModeToggle } from "@/components/theme";
+import Image from "next/image";
 import Link from "next/link";
+
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-black">
+    <main className="min-h-screen bg-white dark:bg-black">
+      <div className="flex flex-row justify-end mr-4 mt-3">
+        <ModeToggle />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+
+        <div className="relative w-full h-80 sm:h-screen">
+          <Image src="/transaction.jpg" alt="Home landing page" fill className="object-contain rounded-2xl" />
+        </div>
+
         <div className="flex flex-col justify-center items-center p-4 sm:h-screen sm:justify-center">
           <h1 className="text-3xl font-bold text-center mb-4 first-letter:text-5xl">Your Goto Digital Wallet.</h1>
           <p className="text-center text-lg mb-12">Zero-fee P2P & zero-fee withdrawals, Send cash from and to your friends and loved ones.</p>
@@ -13,6 +24,6 @@ export default function Home() {
           <h2 className="text-center text-xl">Don&apos;t have an Account? Register <Link href={"/auth/register"}><u className="text-black dark:text-white">Here</u></Link></h2>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
