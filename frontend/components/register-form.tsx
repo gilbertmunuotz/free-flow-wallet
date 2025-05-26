@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+'use client'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,9 +18,36 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import registerUser from "@/app/auth/register/_action"
+import { useState } from "react"
+import { toast } from 'sonner'
+import { useRouter } from "next/navigation";
 
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
+
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const formData = new FormData(e.currentTarget);
+
+        try {
+            await registerUser(formData)
+            toast.success("Registered successfully! Login to continue")
+            router.push("/auth/login")
+        } catch (error: any) {
+            toast.error(error.message || "Registration failed")
+        }
+        finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -28,12 +58,12 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
-                                <Label htmlFor="email">Name</Label>
+                                <Label htmlFor="name">Name</Label>
                                 <Input
-                                    id="name"
+                                    name="fullName"
                                     type="text"
                                     placeholder="john doe"
                                     required
@@ -42,7 +72,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                             <div className="grid gap-3">
                                 <Label htmlFor="email">Email</Label>
                                 <Input
-                                    id="email"
+                                    name="email"
                                     type="email"
                                     placeholder="johndoe@example.com"
                                     required
@@ -52,11 +82,11 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
                                 </div>
-                                <Input id="password" type="password" required />
+                                <Input name="password" type="password" required />
                             </div>
                             <div className="grid">
-                                <Label htmlFor="email">4 Digit Pin for Your Wallet
-                                    <InputOTP maxLength={4}>
+                                <Label htmlFor="pin">4 Digit Pin for Your Wallet
+                                    <InputOTP maxLength={4} name="pin" required>
                                         <InputOTPGroup>
                                             <InputOTPSlot index={0} />
                                             <InputOTPSlot index={1} />
@@ -67,9 +97,15 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                                 </Label>
                             </div>
                             <div className="flex flex-col gap-3">
-                                <Button type="submit" className="w-full">
-                                    Sign Up
-                                </Button>
+                                {loading ? (
+                                    <Button type="submit" className="w-full cursor-not-allowed disabled">
+                                        Signing Up...
+                                    </Button>
+                                ) : (
+                                    <Button type="submit" className="w-full cursor-pointer">
+                                        Sign Up
+                                    </Button>
+                                )}
                             </div>
                         </div>
                         <div className="mt-4 text-center text-sm">

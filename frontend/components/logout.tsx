@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 export default function LogoutButton() {
 
@@ -9,6 +10,7 @@ export default function LogoutButton() {
         try {
             await signOut({ callbackUrl: "/auth/login" });
             console.log("Token Cleared");
+            toast.success("Logged Out Successfully")
         } catch (error) {
             console.error("Sign-out failed:", error);
         }

@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { signIn } from "next-auth/react";
 import { useState } from "react"
-import { toast } from 'react-toastify';
+import { toast } from 'sonner'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
@@ -43,6 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         toast.error("Wrong Credentials!")
       } else {
         window.location.href = callbackUrl; // Manual redirect on success
+        toast.success("Welcome Back")
       }
     } catch (error) {
       console.error("Sign-in error:", error);

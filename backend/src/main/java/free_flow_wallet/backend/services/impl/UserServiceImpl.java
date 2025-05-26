@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         Wallet wallet = new Wallet();
         wallet.setBalance(BigDecimal.valueOf(0.0));
         wallet.setUser(user); // set the user in wallet
-        user.setWallet(wallet); // set the wallet in user (bi-directional)
+        user.setWallet(wallet); // set the wallet in user (bidirectional)
 
         // Save Entity to DB
         User saveUser = userRepository.save(user);

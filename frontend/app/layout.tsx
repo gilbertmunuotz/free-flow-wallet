@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { SessionProvider } from "next-auth/react";
-import { Slide, ToastContainer } from 'react-toastify';
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: "Free Flow Wallet",
@@ -20,12 +20,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             disableTransitionOnChange
           >
             {children}
-            <ToastContainer
+            <Toaster
               position="top-center"
-              transition={Slide}
-              autoClose={5000}
-              theme="colored"
-              pauseOnHover
+              richColors
             />
           </ThemeProvider>
         </SessionProvider>
