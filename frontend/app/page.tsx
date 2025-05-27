@@ -1,9 +1,19 @@
+import { auth } from "@/auth";
 import { ModeToggle } from "@/components/theme";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 
-export default function Home() {
+export default async function Home() {
+
+  const session = await auth();
+
+  // Redirect if user is logged in
+  if (session?.accessToken) {
+    redirect('/home')
+  }
+
   return (
     <main className="min-h-screen bg-white dark:bg-black">
       <div className="flex flex-row justify-end mr-4 mt-3">

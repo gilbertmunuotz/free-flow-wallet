@@ -38,8 +38,8 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
 
         try {
             await registerUser(formData)
-            toast.success("Registered successfully! Login to continue")
             router.push("/auth/login")
+            toast.success("Registered successfully! Login to continue")
         } catch (error: any) {
             toast.error(error.message || "Registration failed")
         }

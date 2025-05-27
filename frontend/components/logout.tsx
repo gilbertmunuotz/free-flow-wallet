@@ -9,7 +9,6 @@ export default function LogoutButton() {
     const handleSignOut = async () => {
         try {
             await signOut({ callbackUrl: "/auth/login" });
-            console.log("Token Cleared");
             toast.success("Logged Out Successfully")
         } catch (error) {
             console.error("Sign-out failed:", error);

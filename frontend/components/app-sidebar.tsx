@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Image from "next/image"
 import { auth } from "@/auth";
 import LogoutButton from "./logout";
+import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -24,12 +25,12 @@ const items = [
     },
     {
         title: "P2P",
-        url: "#",
+        url: "/p2p",
         icon: BadgeDollarSign,
     },
     {
         title: "Funds",
-        url: "#",
+        url: "/funds",
         icon: BanknoteArrowDown,
     },
 ]
@@ -48,10 +49,10 @@ export default async function AppSidebar() {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title} className="mt-2">
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}

@@ -1,8 +1,12 @@
 import { ModeToggle } from "@/components/theme";
 import { Card, CardContent, CardHeader, CardTitle, } from "@/components/ui/card"
+import getBalance from "./_action";
 
 
-export default function Page() {
+export default async function Page() {
+
+    const balanceData = await getBalance()
+
     return (
         <div className="flex flex-col min-h-screen bg-white dark:bg-black">
             {/* Topbar inside content area (excluding sidebar) */}
@@ -18,7 +22,7 @@ export default function Page() {
                             <CardTitle className="text-center text-lg">Wallet Amount 💰</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p>Card Content</p>
+                            <p className="text-xl">💲{balanceData?.balance ?? 0} Cash</p>
                         </CardContent>
                     </Card>
                 </div>
