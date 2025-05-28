@@ -1,9 +1,11 @@
 package free_flow_wallet.backend.entities;
 
+import free_flow_wallet.backend.enums.ProviderType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,9 +20,10 @@ public class ExternalAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String providerName; // e.g., "Chase", "PayPal"
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerName;
 
-    private String accountNumber;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

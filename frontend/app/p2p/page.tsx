@@ -1,11 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ModeToggle } from "@/components/theme";
-import { Plus } from 'lucide-react';
+import { ArrowRightLeft, Plus } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import P2pModal from "@/components/p2p-modal";
+import { GetP2P } from "./_action";
+import { format } from "date-fns";
 
-export default function Page() {
+
+export default async function Page() {
+
+    const p2p = await GetP2P();
 
     return (
         <div className="flex flex-col min-h-screen bg-white dark:bg-black">
@@ -40,8 +46,29 @@ export default function Page() {
                 <div className="items-center justify-center p-6">
                     <h1 className="text-center text-lg font-serif">Transactions</h1>
                     <Card className="bg-white dark:bg-sky-600">
-                        <CardContent>
-
+                        <CardContent className="space-y-4">
+                            {p2p.length === 0 ? (
+                                <p className="text-center text-gray-500">No transactions found.</p>
+                            ) : (
+                                p2p.map((tx: any) => (
+                                    <div
+                                        key={tx.id}
+                                        className="flex justify-between items-center border-b pb-2">
+                                        <div>
+                                            <p className="font-medium">{tx.description}</p>
+                                            <p className="text-sm text-gray-500 dark:text-white">
+                                                {format(new Date(tx.timestamp), "PPpp")}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <ArrowRightLeft size={20} className="text-blue-600 dark:text-amber-500" />
+                                            <p className="text-right font-semibold text-green-600 dark:text-white">
+                                                +${tx.amount}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </CardContent>
                     </Card>
                 </div>

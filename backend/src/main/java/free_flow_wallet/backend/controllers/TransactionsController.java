@@ -7,12 +7,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -28,4 +31,10 @@ public class TransactionsController {
         TransactionDto result = transactionService.sendP2PTransaction(p2PRequestDto, senderEmail);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/p2p/history")
+    public ResponseEntity<List<TransactionDto>> getP2PTransaction(Authentication authentication) {
+        return ResponseEntity.ok(transactionService.getP2PTransaction(authentication));
+    }
+
 }

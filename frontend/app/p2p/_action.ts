@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { SERVER_URI } from "@/constants/constant"
 import axios from "axios"
 
-export async function P2P(formData: FormData): Promise<void> {
+export async function PostP2P(formData: FormData): Promise<void> {
     const session = await auth(); // get the user session
 
     if (!session?.accessToken) {
@@ -31,5 +31,27 @@ export async function P2P(formData: FormData): Promise<void> {
     } catch (error: any) {
         console.error("Failed to Perform Transaction:", error);
         throw new Error("Failed to Perform Transaction");
+    }
+}
+
+export async function GetP2P() {
+    const session = await auth(); // get the user session
+
+    if (!session?.accessToken) {
+        throw new Error("Not authenticated or token missing");
+    }
+
+    try {
+        const response = await axios.get(`${SERVER_URI}/api/v1/transactions/p2p/history`, {
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`
+            }
+        });
+
+        return response.data; // return the transaction data
+
+    } catch (error: any) {
+        console.error("Failed to fetch Transactions:", error.message);
+        throw new Error("Could not fetch Transactions");
     }
 }

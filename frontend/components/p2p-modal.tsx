@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp"
 import { Button } from "./ui/button"
-import { P2P } from "@/app/p2p/_action"
+import { PostP2P } from "@/app/p2p/_action"
 import { useState } from "react"
 import { toast } from 'sonner'
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ export default function P2pModal() {
         const formData = new FormData(e.currentTarget);
 
         try {
-            await P2P(formData)
+            await PostP2P(formData)
             router.push("/home")
             toast.success("Transaction Sent Successfully")
         } catch (error: any) {

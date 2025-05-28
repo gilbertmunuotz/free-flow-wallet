@@ -14,10 +14,14 @@ import free_flow_wallet.backend.repositories.UserRepository;
 import free_flow_wallet.backend.services.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -72,4 +76,26 @@ public class TransactionServiceImpl implements TransactionService {
         return TransactionMapper.toDto(saved);
     }
 
+    @Override
+    public List<TransactionDto> getP2PTransaction(Authentication authentication) {
+        String email = authentication.getName(); // from JWT sub
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        Long userId = user.getId();
+
+        // Get sent and received transactions separately
+        List<Transaction> sent = transactionRepository.findByTypeAndSenderId(TransactionType.P2P, userId);
+        List<Transaction> received = transactionRepository.findByTypeAndReceiverId(TransactionType.P2P, userId);
+
+        // Combine both lists
+        List<Transaction> all = new ArrayList<>();
+        all.addAll(sent);
+        all.addAll(received);
+
+        // Map to DTOs
+        return all.stream()
+                .map(TransactionMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
