@@ -26,7 +26,7 @@ export default async function Home() {
         </div>
 
         <div className="flex flex-col justify-center items-center p-4 sm:h-screen sm:justify-center">
-          <h1 className="text-3xl font-bold text-center mb-4 first-letter:text-5xl">Your Goto Digital Wallet.</h1>
+          <h1 className="text-3xl font-semibold text-center mb-4 first-letter:text-4xl">Your Goto Digital Wallet.</h1>
           <p className="text-center text-lg mb-12">Zero-fee P2P & zero-fee withdrawals, Send cash from and to your friends and loved ones.</p>
           <Link href={"/auth/login"}>
             <button type="button" className="px-20 py-2 mb-4 bg-black dark:bg-gray-800 cursor-pointer rounded-3xl text-white leading-6">Log In</button>

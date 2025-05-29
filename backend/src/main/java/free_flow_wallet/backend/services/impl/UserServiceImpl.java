@@ -1,13 +1,11 @@
 package free_flow_wallet.backend.services.impl;
 
-import free_flow_wallet.backend.dtos.AuthRequestDto;
-import free_flow_wallet.backend.dtos.LoginResponseDto;
-import free_flow_wallet.backend.dtos.RegisterRequestDto;
-import free_flow_wallet.backend.dtos.UserDto;
+import free_flow_wallet.backend.dtos.*;
 import free_flow_wallet.backend.entities.User;
 import free_flow_wallet.backend.entities.Wallet;
 import free_flow_wallet.backend.exceptions.EmailAlreadyExistsException;
 import free_flow_wallet.backend.exceptions.EmailNotFoundException;
+import free_flow_wallet.backend.exceptions.UserNotFoundException;
 import free_flow_wallet.backend.exceptions.WrongCredentials;
 import free_flow_wallet.backend.mappers.UserMapper;
 import free_flow_wallet.backend.repositories.UserRepository;
@@ -76,5 +74,29 @@ public class UserServiceImpl implements UserService {
                 user.getEmail(),
                 token
         );
+    }
+
+    @Override
+    public User updateUserInfo(String email, UserUpdateRequestDto updateDto) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (updateDto.getFullName() != null && !updateDto.getFullName().isBlank()) {
+            user.setFullName(updateDto.getFullName());
+        }
+
+        if (updateDto.getEmail() != null && !updateDto.getEmail().isBlank() && !updateDto.getEmail().equals(user.getEmail())) {
+            user.setEmail(updateDto.getEmail());
+        }
+
+        if (updateDto.getPassword() != null && !updateDto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+        }
+
+        if (updateDto.getPin() != null && !updateDto.getPin().isBlank()) {
+            user.setPin(updateDto.getPin());
+        }
+
+        return userRepository.save(user);
     }
 }
