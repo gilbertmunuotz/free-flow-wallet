@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -37,4 +34,10 @@ public class TransactionsController {
         return ResponseEntity.ok(transactionService.getP2PTransaction(authentication));
     }
 
+    @DeleteMapping("/p2p/{id}")
+    public ResponseEntity<?> deleteP2PTransaction(@PathVariable Long id, Authentication authentication) {
+        String email = authentication.getName(); // JWT sub
+        transactionService.deleteP2PTransaction(id, email);
+        return ResponseEntity.ok().build();
+    }
 }

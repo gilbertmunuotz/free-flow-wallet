@@ -5,9 +5,7 @@ import free_flow_wallet.backend.dtos.TransactionDto;
 import free_flow_wallet.backend.entities.Transaction;
 import free_flow_wallet.backend.entities.User;
 import free_flow_wallet.backend.enums.TransactionType;
-import free_flow_wallet.backend.exceptions.InsufficientBalanceException;
-import free_flow_wallet.backend.exceptions.InvalidPinException;
-import free_flow_wallet.backend.exceptions.UserNotFoundException;
+import free_flow_wallet.backend.exceptions.*;
 import free_flow_wallet.backend.mappers.TransactionMapper;
 import free_flow_wallet.backend.repositories.TransactionRepository;
 import free_flow_wallet.backend.repositories.UserRepository;
@@ -97,5 +95,21 @@ public class TransactionServiceImpl implements TransactionService {
         return all.stream()
                 .map(TransactionMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteP2PTransaction(Long transactionId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+        // Ensure the user is sender or receiver of this P2P transaction
+        if (transaction.getType() != TransactionType.P2P ||
+                (!transaction.getSender().equals(user) && !transaction.getReceiver().equals(user))) {
+            throw new AccessDeniedException("You are not allowed to delete this transaction");
+        }
+
+        transactionRepository.deleteP2PTransactionById(transactionId);
     }
 }

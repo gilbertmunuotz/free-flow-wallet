@@ -1,4 +1,4 @@
-import { Home, BanknoteArrowDown, User2, ChevronUp, BadgeDollarSign } from "lucide-react"
+import { Home, BanknoteArrowDown, User2, ChevronUp, BadgeDollarSign, Settings } from "lucide-react"
 
 import {
     Sidebar,
@@ -33,6 +33,11 @@ const items = [
         url: "/funds",
         icon: BanknoteArrowDown,
     },
+    {
+        title: "Settings",
+        url: "/settings",
+        icon: Settings
+    }
 ]
 
 export default async function AppSidebar() {

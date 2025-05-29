@@ -55,3 +55,26 @@ export async function GetP2P() {
         throw new Error("Could not fetch Transactions");
     }
 }
+
+export async function DeleteP2P(formData: FormData) {
+    const session = await auth(); // get the user session
+    const id = formData.get("id") as string;
+
+    if (!session?.accessToken) {
+        throw new Error("Not authenticated or token missing");
+    }
+
+    try {
+        const response = await axios.delete(`${SERVER_URI}/api/v1/transactions/p2p/${id}`, {
+            headers: {
+                Authorization: `Bearer ${session.accessToken}`
+            }
+        });
+
+        console.log("Status", response.status);
+
+    } catch (error: any) {
+        console.error("Failed to Delete Transaction:", error.message);
+        throw new Error("Could not Delete Transaction");
+    }
+}

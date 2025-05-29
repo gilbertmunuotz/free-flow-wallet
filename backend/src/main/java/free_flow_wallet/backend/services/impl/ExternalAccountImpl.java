@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -50,6 +51,20 @@ public class ExternalAccountImpl implements ExternalAccountService {
 
         // Step 6: Return DTO
         return ExternalAccountMapper.toDto(savedAccount);
+    }
+
+    @Override
+    public List<ExternalAccountDto> getFundingHistory(Authentication authentication) {
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        List<ExternalAccount> accounts = externalAccountRepository.findByUser(user);
+
+        return accounts.stream()
+                .map(ExternalAccountMapper::toDto)
+                .toList();
     }
 
 }

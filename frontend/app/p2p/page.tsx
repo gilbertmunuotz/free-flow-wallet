@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ModeToggle } from "@/components/theme";
-import { ArrowRightLeft, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import P2pModal from "@/components/p2p-modal";
 import { GetP2P } from "./_action";
 import { format } from "date-fns";
+import DeleteTransaction from "@/components/DeleteTransaction";
 
 
 export default async function Page() {
@@ -48,7 +49,7 @@ export default async function Page() {
                     <Card className="bg-white dark:bg-sky-600">
                         <CardContent className="space-y-4">
                             {p2p.length === 0 ? (
-                                <p className="text-center text-gray-500">No transactions found.</p>
+                                <p className="text-center text-xl text-gray-500 dark:text-black">No transactions found.</p>
                             ) : (
                                 p2p.map((tx: any) => (
                                     <div
@@ -61,10 +62,10 @@ export default async function Page() {
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <ArrowRightLeft size={20} className="text-blue-600 dark:text-amber-500" />
                                             <p className="text-right font-semibold text-green-600 dark:text-white">
                                                 +${tx.amount}
                                             </p>
+                                            <DeleteTransaction txId={tx.id} />
                                         </div>
                                     </div>
                                 ))
